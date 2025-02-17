@@ -8,14 +8,12 @@
     <meta name="keywords" content="sparkling water prices, cheapest sparkling water, LaCroix deals, Liquid Death prices, best sparkling water deals">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sparklingwaterdeals.com">
-    
-    <!-- ✅ Updated Schema.org JSON with only Target -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org/",
       "@type": "Product",
       "name": "Cheapest Sparkling Water Deals",
-      "description": "Compare sparkling water prices from major online retailers like Target.",
+      "description": "Compare sparkling water prices from major online retailers like Amazon and Target.",
       "brand": {
         "@type": "Brand",
         "name": "Sparkling Water Deals"
@@ -26,28 +24,65 @@
         "priceCurrency": "USD",
         "lowPrice": "0.99",
         "highPrice": "20.00",
-        "offerCount": "5",  <!-- Reduced offer count -->
+        "offerCount": "10",
         "seller": {
           "@type": "Organization",
-          "name": "Target"
+          "name": "Amazon, Target"
         }
       }
     }
     </script>
-
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
         .price-container { margin-top: 20px; font-size: 18px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
-        th { background: #f4f4f4; }
+        th { background: #f4f4f4; cursor: pointer; }
+        th:hover { background: #e8e8e8; }
         .button { background-color: #28a745; color: white; padding: 5px 10px; text-decoration: none; }
+        .sort-controls {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .sort-controls label {
+            margin-right: 20px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .loading { 
+            text-align: center; 
+            padding: 20px;
+            font-style: italic;
+            color: #666;
+        }
+        .error {
+            color: #dc3545;
+            padding: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <h1>Best Sparkling Water Deals Online</h1>
-    <h2>Compare Prices from Target</h2>  <!-- ✅ Removed Amazon reference -->
-    
+    <h2>Compare Prices from Multiple Retailers</h2>
+
+    <div class="sort-controls">
+        <label>
+            <input type="radio" name="sort" value="price_per_can" checked>
+            Sort by Price per Can
+        </label>
+        <label>
+            <input type="radio" name="sort" value="price_per_fluid_oz">
+            Sort by Price per Fluid Ounce
+        </label>
+        <label>
+            <input type="radio" name="sort" value="price_per_pack">
+            Sort by Price per Pack
+        </label>
+    </div>
+
     <table>
         <thead>
             <tr>
@@ -60,46 +95,81 @@
             </tr>
         </thead>
         <tbody class="price-container">
-            <tr><td colspan="6">Fetching latest prices...</td></tr>
+            <tr><td colspan="6" class="loading">Fetching latest prices...</td></tr>
         </tbody>
     </table>
 
     <script>
         async function fetchPrices() {
+            const container = document.querySelector('.price-container');
             try {
-                const response = await fetch('https://api.sparklingwaterdeals.com/sparkling-water'); // ✅ Correct API endpoint
-                const data = await response.json();
-                const container = document.querySelector('.price-container');
-
-                if (data.error) {
-                    container.innerHTML = `<tr><td colspan="6">${data.error}</td></tr>`;
-                } else {
-                    container.innerHTML = data.map(product => {
-                        const cansPerPack = product.cans_per_pack || "N/A";  // ✅ Default to "N/A" if missing
-                        const pricePerCan = product.price_per_can || (product.price_per_fluid_oz && product.ounces_per_can 
-                            ? (product.price_per_fluid_oz * product.ounces_per_can).toFixed(2) 
-                            : "N/A");
-                        const pricePerOz = product.price_per_fluid_oz || (product.price_per_can && product.ounces_per_can 
-                            ? (product.price_per_can / product.ounces_per_can).toFixed(2) 
-                            : "N/A");
-
-                        return `
-                        <tr>
-                            <td><a href="${product.link}" target="_blank">${product.name}</a></td>
-                            <td>${product.store}</td>
-                            <td>${cansPerPack}</td>
-                            <td>$${pricePerOz}</td>
-                            <td>$${pricePerCan}</td>
-                            <td>$${product.price_per_pack}</td>
-                        </tr>
-                        `;
-                    }).join('');
+                const response = await fetch('/sparkling-water', {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
+                
+                const data = await response.json();
+                
+                // Sort data by price per can by default
+                const sortedData = data.sort((a, b) => {
+                    return parseFloat(a.price_per_can.replace('$', '')) - parseFloat(b.price_per_can.replace('$', ''));
+                });
+                
+                // Create table rows
+                container.innerHTML = sortedData.map(item => `
+                    <tr>
+                        <td><a href="${item.link}" target="_blank">${item.title}</a></td>
+                        <td>${item.store}</td>
+                        <td>${item.cans_per_pack}</td>
+                        <td>${item.price_per_fluid_oz}</td>
+                        <td>${item.price_per_can}</td>
+                        <td>${item.price_per_pack}</td>
+                    </tr>
+                `).join('');
+                
+                // Add sorting functionality
+                document.querySelectorAll('input[name="sort"]').forEach(radio => {
+                        radio.addEventListener('change', function() {
+                            const tbody = document.querySelector('.price-container');
+                            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+                            // Map radio button values to dataset keys
+                            const keyMap = {
+                                can: "priceCan",
+                                oz: "priceFluidOz",
+                                pack: "pricePack"
+                            };
+
+                            const key = keyMap[this.value];
+
+                            rows.sort((a, b) => {
+                                const aPrice = parseFloat(a.dataset[key].replace('$', '').trim());
+                                const bPrice = parseFloat(b.dataset[key].replace('$', '').trim());
+                                return aPrice - bPrice;
+                            });
+
+                            rows.forEach(row => tbody.appendChild(row));
+                        });
+                    });
+
+                    // Automatically trigger sorting on page load
+                    document.addEventListener("DOMContentLoaded", function() {
+                        document.querySelector('input[name="sort"][value="can"]').dispatchEvent(new Event('change'));
+                    });
+                
             } catch (error) {
-                document.querySelector('.price-container').innerHTML = '<tr><td colspan="6">Error fetching prices.</td></tr>';
+                console.error('Error:', error);
+                container.innerHTML = '<tr><td colspan="6" class="error">Error fetching prices. Please try again later.</td></tr>';
             }
         }
-        fetchPrices();
+
+        // Load prices when page loads
+        document.addEventListener('DOMContentLoaded', fetchPrices);
     </script>
 </body>
 </html>
