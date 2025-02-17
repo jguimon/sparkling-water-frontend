@@ -8,30 +8,6 @@
     <meta name="keywords" content="sparkling water prices, cheapest sparkling water, LaCroix deals, Liquid Death prices, best sparkling water deals">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sparklingwaterdeals.com">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": "Cheapest Sparkling Water Deals",
-      "description": "Compare sparkling water prices from major online retailers like Amazon and Target.",
-      "brand": {
-        "@type": "Brand",
-        "name": "Sparkling Water Deals"
-      },
-      "offers": {
-        "@type": "AggregateOffer",
-        "url": "https://sparklingwaterdeals.com",
-        "priceCurrency": "USD",
-        "lowPrice": "0.99",
-        "highPrice": "20.00",
-        "offerCount": "10",
-        "seller": {
-          "@type": "Organization",
-          "name": "Amazon, Target"
-        }
-      }
-    }
-    </script>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
         .price-container { margin-top: 20px; font-size: 18px; }
@@ -39,7 +15,6 @@
         th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
         th { background: #f4f4f4; cursor: pointer; }
         th:hover { background: #e8e8e8; }
-        .button { background-color: #28a745; color: white; padding: 5px 10px; text-decoration: none; }
         .sort-controls {
             margin: 20px 0;
             text-align: center;
@@ -70,15 +45,15 @@
 
     <div class="sort-controls">
         <label>
-            <input type="radio" name="sort" value="price_per_can" checked>
+            <input type="radio" name="sort" value="priceCan" checked>
             Sort by Price per Can
         </label>
         <label>
-            <input type="radio" name="sort" value="price_per_fluid_oz">
+            <input type="radio" name="sort" value="priceFluidOz">
             Sort by Price per Fluid Ounce
         </label>
         <label>
-            <input type="radio" name="sort" value="price_per_pack">
+            <input type="radio" name="sort" value="pricePack">
             Sort by Price per Pack
         </label>
     </div>
@@ -104,9 +79,7 @@
             const container = document.querySelector('.price-container');
             try {
                 const response = await fetch('https://api.sparklingwaterdeals.com/sparkling-water', {
-            headers: {
-                'Accept': 'application/json'
-                    }
+                    headers: { 'Accept': 'application/json' }
                 });
                 
                 if (!response.ok) {
@@ -115,14 +88,10 @@
                 
                 const data = await response.json();
                 
-                // Sort data by price per can by default
-                const sortedData = data.sort((a, b) => {
-                    return parseFloat(a.price_per_can.replace('$', '')) - parseFloat(b.price_per_can.replace('$', ''));
-                });
-                
-                // Create table rows
-                container.innerHTML = sortedData.map(item => `
-                    <tr>
+                container.innerHTML = data.map(item => `
+                    <tr data-priceCan="${parseFloat(item.price_per_can.replace('$', ''))}" 
+                        data-priceFluidOz="${parseFloat(item.price_per_fluid_oz.replace('$', ''))}" 
+                        data-pricePack="${parseFloat(item.price_per_pack.replace('$', ''))}">
                         <td><a href="${item.link}" target="_blank">${item.title}</a></td>
                         <td>${item.store}</td>
                         <td>${item.cans_per_pack}</td>
@@ -131,47 +100,34 @@
                         <td>${item.price_per_pack}</td>
                     </tr>
                 `).join('');
-                
-                // Add sorting functionality
-                document.addEventListener("DOMContentLoaded", function () {
-                const tbody = document.querySelector(".price-container");
 
                 function sortTable(sortBy) {
+                    const tbody = document.querySelector(".price-container");
                     const rows = Array.from(tbody.querySelectorAll("tr"));
 
                     rows.sort((a, b) => {
-                        const aPrice = parseFloat(a.getAttribute(`data-${sortBy}`).replace("$", "").trim());
-                        const bPrice = parseFloat(b.getAttribute(`data-${sortBy}`).replace("$", "").trim());
+                        const aPrice = parseFloat(a.dataset[sortBy]);
+                        const bPrice = parseFloat(b.dataset[sortBy]);
                         return aPrice - bPrice;
                     });
 
+                    tbody.innerHTML = "";
                     rows.forEach(row => tbody.appendChild(row));
                 }
 
-                // Event listener for radio buttons
                 document.querySelectorAll('input[name="sort"]').forEach(radio => {
                     radio.addEventListener("change", function () {
-                        const keyMap = {
-                            price_per_can: "price-can",
-                            price_per_fluid_oz: "price-fluid-oz",
-                            price_per_pack: "price-pack",
-                        };
-                        sortTable(keyMap[this.value]);
+                        sortTable(this.value);
                     });
                 });
 
-                // Sort by default on page load
-                sortTable("price-can");
-            });
-
-                
+                sortTable("priceCan");
             } catch (error) {
                 console.error('Error:', error);
                 container.innerHTML = '<tr><td colspan="6" class="error">Error fetching prices. Please try again later.</td></tr>';
             }
         }
 
-        // Load prices when page loads
         document.addEventListener('DOMContentLoaded', fetchPrices);
     </script>
 </body>
