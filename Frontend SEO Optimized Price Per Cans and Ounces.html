@@ -8,12 +8,14 @@
     <meta name="keywords" content="sparkling water prices, cheapest sparkling water, LaCroix deals, Liquid Death prices, best sparkling water deals">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sparklingwaterdeals.com">
+    
+    <!-- ✅ Updated Schema.org JSON with only Target -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org/",
       "@type": "Product",
       "name": "Cheapest Sparkling Water Deals",
-      "description": "Compare sparkling water prices from major online retailers like Amazon and Target.",
+      "description": "Compare sparkling water prices from major online retailers like Target.",
       "brand": {
         "@type": "Brand",
         "name": "Sparkling Water Deals"
@@ -24,14 +26,15 @@
         "priceCurrency": "USD",
         "lowPrice": "0.99",
         "highPrice": "20.00",
-        "offerCount": "10",
+        "offerCount": "5",  <!-- Reduced offer count -->
         "seller": {
           "@type": "Organization",
-          "name": "Amazon, Target"
+          "name": "Target"
         }
       }
     }
     </script>
+
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
         .price-container { margin-top: 20px; font-size: 18px; }
@@ -43,7 +46,8 @@
 </head>
 <body>
     <h1>Best Sparkling Water Deals Online</h1>
-    <h2>Compare Prices from Amazon & Target</h2>
+    <h2>Compare Prices from Target</h2>  <!-- ✅ Removed Amazon reference -->
+    
     <table>
         <thead>
             <tr>
@@ -59,10 +63,11 @@
             <tr><td colspan="6">Fetching latest prices...</td></tr>
         </tbody>
     </table>
+
     <script>
         async function fetchPrices() {
             try {
-                const response = await fetch('https://api.sparklingwaterdeals.com/sparkling-water'); // Update with actual API
+                const response = await fetch('https://api.sparklingwaterdeals.com/sparkling-water'); // ✅ Correct API endpoint
                 const data = await response.json();
                 const container = document.querySelector('.price-container');
 
@@ -70,14 +75,19 @@
                     container.innerHTML = `<tr><td colspan="6">${data.error}</td></tr>`;
                 } else {
                     container.innerHTML = data.map(product => {
-                        const pricePerCan = product.price_per_can ? product.price_per_can : (product.price_per_fluid_oz * product.ounces_per_can).toFixed(2);
-                        const pricePerOz = product.price_per_fluid_oz ? product.price_per_fluid_oz : (product.price_per_can / product.ounces_per_can).toFixed(2);
-                        
+                        const cansPerPack = product.cans_per_pack || "N/A";  // ✅ Default to "N/A" if missing
+                        const pricePerCan = product.price_per_can || (product.price_per_fluid_oz && product.ounces_per_can 
+                            ? (product.price_per_fluid_oz * product.ounces_per_can).toFixed(2) 
+                            : "N/A");
+                        const pricePerOz = product.price_per_fluid_oz || (product.price_per_can && product.ounces_per_can 
+                            ? (product.price_per_can / product.ounces_per_can).toFixed(2) 
+                            : "N/A");
+
                         return `
                         <tr>
                             <td><a href="${product.link}" target="_blank">${product.name}</a></td>
                             <td>${product.store}</td>
-                            <td>${product.cans_per_pack}</td>
+                            <td>${cansPerPack}</td>
                             <td>$${pricePerOz}</td>
                             <td>$${pricePerCan}</td>
                             <td>$${product.price_per_pack}</td>
