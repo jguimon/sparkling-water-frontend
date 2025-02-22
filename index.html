@@ -112,9 +112,9 @@
 
                 // Display the products
                 container.innerHTML = data.map(item => `
-                    <tr data-priceFluidOz="${item.price_per_fluid_ounce}" 
-                        data-priceCan="${item.price_per_can}" 
-                        data-pricePack="${item.price_per_pack}">
+                    <tr data-price-fluid-oz="${item.price_per_fluid_ounce}" 
+                        data-price-can="${item.price_per_can}" 
+                        data-price-pack="${item.price_per_pack}">
                         <td>
                           <a href="${item.product.url}" target="_blank" rel="noopener noreferrer">
                             ${item.product.name}
