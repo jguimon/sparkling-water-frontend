@@ -115,7 +115,11 @@
                     <tr data-priceFluidOz="${item.price_per_fluid_ounce}" 
                         data-priceCan="${item.price_per_can}" 
                         data-pricePack="${item.price_per_pack}">
-                        <td><a href="${item.product.url}" target="_blank">${item.product.name}</a></td>
+                        <td>
+                          <a href="${item.product.url}" target="_blank" rel="noopener noreferrer">
+                            ${item.product.name}
+                          </a>
+                        </td>
                         <td>${item.store}</td>
                         <td>${item.cans_per_pack}</td>
                         <td>$${item.price_per_fluid_ounce.toFixed(2)}</td>
