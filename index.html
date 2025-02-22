@@ -1,100 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Product Prices</title>
-  <style>
-    /* Basic styling for demonstration */
-    .error { color: red; }
-    table { width: 100%; border-collapse: collapse; }
-    td, th { border: 1px solid #ddd; padding: 8px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Sparkling Water Prices - Cheapest Amazon Deals</title>
+    <meta name="description" content="Find the cheapest sparkling water prices on Amazon. Compare brands like LaCroix, Liquid Death, and more.">
+    <meta name="keywords" content="sparkling water prices, cheapest sparkling water, LaCroix deals, Liquid Death prices, best sparkling water deals">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://sparklingwaterdeals.com">
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        .price-container { margin-top: 20px; font-size: 18px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background: #f4f4f4; cursor: pointer; }
+        th:hover { background: #e8e8e8; }
+        .sort-controls {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .sort-controls label {
+            margin-right: 20px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .loading { 
+            text-align: center; 
+            padding: 20px;
+            font-style: italic;
+            color: #666;
+        }
+        .error {
+            color: #dc3545;
+            padding: 20px;
+            text-align: center;
+        }
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
-  <h1>Product Prices</h1>
-  <p id="lastUpdated"></p>
-  
-  <!-- The table where rows will be appended -->
-  <table>
-    <thead>
-      <tr>
-        <th>Product Name</th>
-        <th>Store</th>
-        <th>Cans per Pack</th>
-        <th>Price per Fluid Ounce</th>
-        <th>Price per Can</th>
-        <th>Price per Pack</th>
-      </tr>
-    </thead>
-    <tbody class="price-container">
-      <!-- Rows will be injected here -->
-      <tr><td colspan="6">Loading prices...</td></tr>
-    </tbody>
-  </table>
+    <h1>Best Sparkling Water Deals On Amazon</h1>
+    <h2>Compare Prices from Multiple Brands</h2>
 
-  <script>
-    async function fetchPrices() {
-      const container = document.querySelector(".price-container");
-      const lastUpdated = document.getElementById("lastUpdated");
+    <div class="sort-controls">
+        <label>
+            <input type="radio" name="sort" value="priceCan" checked>
+            Sort by Price per Can
+        </label>
+        <label>
+            <input type="radio" name="sort" value="priceFluidOz">
+            Sort by Price per Fluid Ounce
+        </label>
+        <label>
+            <input type="radio" name="sort" value="pricePack">
+            Sort by Price per Pack
+        </label>
+    </div>
 
-      try {
-        // Fetch the static JSON file (make sure it's in your repository at the right location)
-        const response = await fetch('/static_products.json');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Store</th>
+                <th>Cans per Pack</th>
+                <th>Price per Fluid Ounce</th>
+                <th>Price per Can</th>
+                <th>Price per Pack</th>
+            </tr>
+        </thead>
+        <tbody class="price-container">
+            <tr><td colspan="6" class="loading">Fetching latest prices...</td></tr>
+        </tbody>
+    </table>
+
+    <!-- Timestamp Section -->
+    <p id="last-updated" style="margin-top: 20px; font-size: 14px; color: #555;"></p>
+
+    <!-- Amazon Disclaimer -->
+    <footer>
+        <p>
+            As an Amazon Associate I earn from qualifying purchases. Product prices and availability are accurate as of the date/time indicated and are subject to change. 
+            Any price and availability information displayed at the time of purchase will apply to the purchase of the product. 
+            <strong>CERTAIN CONTENT THAT APPEARS ON THIS SITE COMES FROM AMAZON SERVICES LLC. THIS CONTENT IS PROVIDED 'AS IS' AND IS SUBJECT TO CHANGE OR REMOVAL AT ANY TIME.</strong>
+        </p>
+    </footer>
+
+    <script>
+        async function fetchPrices() {
+            const container = document.querySelector(".price-container");
+            const lastUpdated = document.getElementById("lastUpdated");
+
+            try {
+                // Fetch the static JSON file
+                const response = await fetch('/static_products.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                // Clear existing content
+                container.innerHTML = '';
+
+                // Display the products
+                container.innerHTML = data.map(item => `
+                    <tr data-priceFluidOz="${item.price_per_fluid_ounce}" 
+                        data-priceCan="${item.price_per_can}" 
+                        data-pricePack="${item.price_per_pack}">
+                        <td>${item.product.name}</td>
+                        <td>${item.store}</td>
+                        <td>${item.cans_per_pack}</td>
+                        <td>$${item.price_per_fluid_ounce.toFixed(2)}</td>
+                        <td>$${item.price_per_can.toFixed(2)}</td>
+                        <td>$${item.price_per_pack.toFixed(2)}</td>
+                    </tr>
+                `).join('');
+
+                // Keep existing sorting functionality
+                function sortTable(sortBy) {
+                    const tbody = document.querySelector(".price-container");
+                    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+                    rows.sort((a, b) => {
+                        const aPrice = parseFloat(a.dataset[sortBy]);
+                        const bPrice = parseFloat(b.dataset[sortBy]);
+                        return aPrice - bPrice;
+                    });
+
+                    tbody.innerHTML = "";
+                    rows.forEach(row => tbody.appendChild(row));
+                }
+
+                // Keep existing event listeners
+                document.querySelectorAll('input[name="sort"]').forEach(radio => {
+                    radio.addEventListener("change", function() {
+                        sortTable(this.value);
+                    });
+                });
+
+                // Initial sort
+                sortTable("priceCan");
+
+                // Update timestamp
+                const now = new Date();
+                lastUpdated.textContent = `Last updated: ${now.toLocaleString()}`;
+
+            } catch (error) {
+                console.error('Error:', error);
+                container.innerHTML = '<tr><td colspan="6" class="error">Error loading prices. Please try again later.</td></tr>';
+            }
         }
-        const data = await response.json();
 
-        // Clear existing content
-        container.innerHTML = '';
-
-        // Display the products by creating table rows
-        container.innerHTML = data.map(item => `
-          <tr data-priceFluidOz="${item.price_per_fluid_ounce}" 
-              data-priceCan="${item.price_per_can}" 
-              data-pricePack="${item.price_per_pack}">
-            <td>${item.product.name}</td>
-            <td>${item.store}</td>
-            <td>${item.cans_per_pack}</td>
-            <td>$${item.price_per_fluid_ounce.toFixed(2)}</td>
-            <td>$${item.price_per_can.toFixed(2)}</td>
-            <td>$${item.price_per_pack.toFixed(2)}</td>
-          </tr>
-        `).join('');
-
-        // Sorting functionality for table rows
-        function sortTable(sortBy) {
-          const rows = Array.from(container.querySelectorAll("tr"));
-          rows.sort((a, b) => {
-            const aPrice = parseFloat(a.dataset[sortBy]);
-            const bPrice = parseFloat(b.dataset[sortBy]);
-            return aPrice - bPrice;
-          });
-          container.innerHTML = "";
-          rows.forEach(row => container.appendChild(row));
-        }
-
-        // Attach event listeners to radio buttons for sorting
-        document.querySelectorAll('input[name="sort"]').forEach(radio => {
-          radio.addEventListener("change", function() {
-            sortTable(this.value);
-          });
-        });
-
-        // Initial sort by "priceCan"
-        sortTable("priceCan");
-
-        // Update the last updated timestamp
-        const now = new Date();
-        lastUpdated.textContent = `Last updated: ${now.toLocaleString()}`;
-
-      } catch (error) {
-        console.error('Error:', error);
-        container.innerHTML = '<tr><td colspan="6" class="error">Error loading prices. Please try again later.</td></tr>';
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', fetchPrices);
-  </script>
+        document.addEventListener('DOMContentLoaded', fetchPrices);
+    </script>
 </body>
 </html>
