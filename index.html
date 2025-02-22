@@ -100,32 +100,29 @@
             const lastUpdated = document.getElementById("lastUpdated");
 
             try {
-                // Fetch the static JSON file
-                const response = await fetch('/static_products.json');
+                // Fetch combined data from your Render API endpoint
+                const response = await fetch('https://sparklingwaterapi.onrender.com/sparkling-water');
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-
-                // Clear existing content
-                container.innerHTML = '';
-
-                // Display the products
+                
+                // Build table rows; if any values are missing, display "N/A"
                 container.innerHTML = data.map(item => `
-                    <tr data-price-fluid-oz="${item.price_per_fluid_ounce}" 
-                        data-price-can="${item.price_per_can}" 
-                        data-price-pack="${item.price_per_pack}">
-                        <td>
-                          <a href="${item.product.url}" target="_blank" rel="noopener noreferrer">
-                            ${item.product.name}
-                          </a>
-                        </td>
-                        <td>${item.store}</td>
-                        <td>${item.cans_per_pack}</td>
-                        <td>$${item.price_per_fluid_ounce.toFixed(2)}</td>
-                        <td>$${item.price_per_can.toFixed(2)}</td>
-                        <td>$${item.price_per_pack.toFixed(2)}</td>
-                    </tr>
+                <tr data-price-can="${item.price_per_can ? item.price_per_can.toString().replace('$','') : ''}"
+                    data-price-fluid-oz="${item.price_per_fluid_ounce ? item.price_per_fluid_ounce.toString().replace('$','') : ''}"
+                    data-price-pack="${item.price_per_pack ? item.price_per_pack.toString().replace('$','') : ''}">
+                    <td>
+                    <a href="${item.product.url}" target="_blank" rel="noopener noreferrer">
+                        ${item.product.name}
+                    </a>
+                    </td>
+                    <td>${item.store}</td>
+                    <td>${item.cans_per_pack || 'N/A'}</td>
+                    <td>${item.price_per_fluid_ounce ? `$${parseFloat(item.price_per_fluid_ounce).toFixed(2)}` : 'N/A'}</td>
+                    <td>${item.price_per_can ? `$${parseFloat(item.price_per_can).toFixed(2)}` : 'N/A'}</td>
+                    <td>${item.price_per_pack ? `$${parseFloat(item.price_per_pack).toFixed(2)}` : 'N/A'}</td>
+                </tr>
                 `).join('');
 
                 // Keep existing sorting functionality
