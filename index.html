@@ -96,31 +96,35 @@
 
     <script>
         async function fetchPrices() {
-            const container = document.querySelector('.price-container');
-            const lastUpdated = document.getElementById('last-updated');
+            const container = document.querySelector(".price-container");
+            const lastUpdated = document.getElementById("lastUpdated");
 
             try {
-                const response = await fetch('https://your-netlify-site.com/static_products.json');
-                
+                // Fetch the static JSON file
+                const response = await fetch('/static_products.json');
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                
                 const data = await response.json();
-                
+
+                // Clear existing content
+                container.innerHTML = '';
+
+                // Display the products
                 container.innerHTML = data.map(item => `
-                    <tr data-priceCan="${parseFloat(item.price_per_can.replace('$', ''))}" 
-                        data-priceFluidOz="${parseFloat(item.price_per_fluid_oz.replace('$', ''))}" 
-                        data-pricePack="${parseFloat(item.price_per_pack.replace('$', ''))}">
-                        <td><a href="${item.link}" target="_blank">${item.title}</a></td>
+                    <tr data-priceFluidOz="${item.price_per_fluid_ounce}" 
+                        data-priceCan="${item.price_per_can}" 
+                        data-pricePack="${item.price_per_pack}">
+                        <td>${item.product.name}</td>
                         <td>${item.store}</td>
                         <td>${item.cans_per_pack}</td>
-                        <td>${item.price_per_fluid_oz}</td>
-                        <td>${item.price_per_can}</td>
-                        <td>${item.price_per_pack}</td>
+                        <td>$${item.price_per_fluid_ounce.toFixed(2)}</td>
+                        <td>$${item.price_per_can.toFixed(2)}</td>
+                        <td>$${item.price_per_pack.toFixed(2)}</td>
                     </tr>
                 `).join('');
 
+                // Keep existing sorting functionality
                 function sortTable(sortBy) {
                     const tbody = document.querySelector(".price-container");
                     const rows = Array.from(tbody.querySelectorAll("tr"));
@@ -135,20 +139,23 @@
                     rows.forEach(row => tbody.appendChild(row));
                 }
 
+                // Keep existing event listeners
                 document.querySelectorAll('input[name="sort"]').forEach(radio => {
-                    radio.addEventListener("change", function () {
+                    radio.addEventListener("change", function() {
                         sortTable(this.value);
                     });
                 });
 
+                // Initial sort
                 sortTable("priceCan");
 
-                // Display last updated timestamp
+                // Update timestamp
                 const now = new Date();
                 lastUpdated.textContent = `Last updated: ${now.toLocaleString()}`;
+
             } catch (error) {
                 console.error('Error:', error);
-                container.innerHTML = '<tr><td colspan="6" class="error">Error fetching prices. Please try again later.</td></tr>';
+                container.innerHTML = '<tr><td colspan="6" class="error">Error loading prices. Please try again later.</td></tr>';
             }
         }
 
