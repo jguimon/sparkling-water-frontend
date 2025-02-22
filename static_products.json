@@ -7,7 +7,7 @@
       "store": "Amazon",
       "cans_per_pack": 12,
       "price_per_fluid_ounce": 0.03,
-      "price_per_can": .37,
+      "price_per_can": 0.37,
       "price_per_pack": 4.39
     },
     {
@@ -18,7 +18,7 @@
       "store": "Amazon",
       "cans_per_pack": 8,
       "price_per_fluid_ounce": 0.04,
-      "price_per_can": .48,
+      "price_per_can": 0.48,
       "price_per_pack": 3.83
     },
     {
@@ -29,7 +29,7 @@
         "store": "Amazon",
         "cans_per_pack": 8,
         "price_per_fluid_ounce": 0.04,
-        "price_per_can": .48,
+        "price_per_can": 0.48,
         "price_per_pack": 3.83
       },
       {
@@ -40,7 +40,7 @@
         "store": "Amazon",
         "cans_per_pack": 8,
         "price_per_fluid_ounce": 0.04,
-        "price_per_can": .50,
+        "price_per_can": 0.50,
         "price_per_pack": 3.99
       },
    
