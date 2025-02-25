@@ -42,7 +42,17 @@
         "price_per_fluid_ounce": 0.04,
         "price_per_can": 0.50,
         "price_per_pack": 3.99
+      },
+      {
+        "product": {
+          "name": "Waterloo Sparkling Water, Orange Vanilla Naturally Flavored, 12 Fl Oz Cans (Pack of 12) – Zero Calories and Zero Sugar or Sweeteners of Any Kind",
+          "url": "https://amzn.to/3CWBo82"
+           },
+        "store": "Amazon",
+        "cans_per_pack": 12,
+        "price_per_fluid_ounce": 0.03,
+        "price_per_can": 0.39,
+        "price_per_pack": 4.65
       }
-   
   ]
   
