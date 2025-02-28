@@ -1,8 +1,41 @@
 [
     {
       "product": {
-        "name": "Amazon Fresh Sparkling Water, Lime, 12 Fl Oz, 12 Cans",
-        "url": "https://amzn.to/4iaAh3j" 
+        "name": "bubly Sparkling Water, Blackberry, Zero Sugar & Zero Calories, Seltzer Water,12 Fl Oz Cans (Pack of 8)",
+        "url": "https://www.amazon.com/bubly-Sparkling-Water-Blackberry-Cans/dp/B07L4LVT68?crid=QLYC67YKCI9W&dib=eyJ2IjoiMSJ9.1Hm8IUqoiLtmRLb_eBeR43WCfaMKDK3-0jbXgmPJ9d5WMcvWUZfObbOWTHigi4rGtL4iMP8aE22V8Xq7zQzaWx4igG_j3xz_A5eV3jIbKpXkZEA4ABbqzebuEw4dcwjGc5tCFMxBDNXRxnjVya2SWbNRu-XXKjIvWwv1HUT6hqkyHKgPEuJLmx9zaapgcjB4N8gRh6MmaniYdvH_2gZY33kMpb7eJCEMZY0hVUPM5HYRd12AyGORTrzYxaVKfghjvwtukHqmUmCpUmX7i42sTrwpuKS30v2QrWhdVqklP5Y_8A0_FBPbi5x9X_ddMKMxws1MOxvIwKO9mSznXvQIWvURd8rJN4fcmAWN05GWHEE.izmwxF_98ZSjXAfQ34HDeeAQzDFyiPEc7L4CA4toJuI&dib_tag=se&keywords=sparkling%2Bwater&qid=1740774396&refinements=p_76%3A1249146011&rnid=1249144011&rps=1&s=grocery&sprefix=sparkling%2Bwater%2Caps%2C183&sr=1-15&th=1&linkCode=ll1&tag=sparklinwater-20&linkId=27449af2ee9e819634bbe228be0d5f6e&language=en_US&ref_=as_li_ss_tl" 
+        },
+      "store": "Amazon",
+      "cans_per_pack": 8,
+      "price_per_fluid_ounce": 0.05,
+      "price_per_can": 0.50,
+      "price_per_pack": 3.98
+    },
+      {
+        "product": {
+          "name": "Waterloo Sparkling Water, Black Cherry Naturally Flavored, 12 Fl Oz Cans (Pack of 8) – Zero Calories and Zero Sugar or Sweeteners of Any Kind",
+          "url": "https://www.amazon.com/Waterloo-Black-Cherry-Sparkling-Water/dp/B07YSJT8ZS?crid=QLYC67YKCI9W&dib=eyJ2IjoiMSJ9.1Hm8IUqoiLtmRLb_eBeR43WCfaMKDK3-0jbXgmPJ9d5WMcvWUZfObbOWTHigi4rGtL4iMP8aE22V8Xq7zQzaWx4igG_j3xz_A5eV3jIbKpXkZEA4ABbqzebuEw4dcwjGc5tCFMxBDNXRxnjVya2SWbNRu-XXKjIvWwv1HUT6hqkyHKgPEuJLmx9zaapgcjB4N8gRh6MmaniYdvH_2gZY33kMpb7eJCEMZY0hVUPM5HYRd12AyGORTrzYxaVKfghjvwtukHqmUmCpUmX7i42sTrwpuKS30v2QrWhdVqklP5Y_8A0_FBPbi5x9X_ddMKMxws1MOxvIwKO9mSznXvQIWvURd8rJN4fcmAWN05GWHEE.izmwxF_98ZSjXAfQ34HDeeAQzDFyiPEc7L4CA4toJuI&dib_tag=se&keywords=sparkling%2Bwater&qid=1740774396&refinements=p_76%3A1249146011&rnid=1249144011&rps=1&s=grocery&sprefix=sparkling%2Bwater%2Caps%2C183&sr=1-16&th=1&linkCode=ll1&tag=sparklinwater-20&linkId=19f3ab089902de818dc6ca8dc33437e2&language=en_US&ref_=as_li_ss_tl"
+        },
+        "store": "Amazon",
+        "cans_per_pack": 8,
+        "price_per_fluid_ounce": 0.05,
+        "price_per_can": 0.53,
+        "price_per_pack": 4.29
+      },
+      {
+        "product": {
+          "name": "Bubly Sparkling Water, Lime, Zero Sugar & Zero Calories, Seltzer Water,12 Fl Oz Cans (Pack of 8)",
+          "url": "https://amzn.to/4kmzvlW"
+           },
+        "store": "Amazon",
+        "cans_per_pack": 12,
+        "price_per_fluid_ounce": 0.04,
+        "price_per_can": 0.33,
+        "price_per_pack": 4.00
+      },
+        {
+      "product": {
+        "name": "Amazon Fresh, Sparkling Water, Grapefruit (12 Cans, 12 Fl Oz)",
+        "url": "https://amzn.to/3Xqdskq" 
         },
       "store": "Amazon",
       "cans_per_pack": 12,
@@ -10,38 +43,17 @@
       "price_per_can": 0.37,
       "price_per_pack": 4.39
     },
-    {
+            {
       "product": {
-        "name": "LaCroix Sparkling Water, Strawberry Peach, 12 Fl Oz (pack of 8)",
-        "url": "https://amzn.to/4i95mVg" 
+        "name": "Waterloo Sparkling Water, Blackberry Lemonade Naturally Flavored, 12 Fl Oz Cans, Pack of 12 | Zero Calories | Zero Sugar or Artificial Sweeteners | Zero Sodium…",
+        "url": "https://www.amazon.com/Waterloo-Sparkling-Water-Artificial-Sweeteners/dp/B09C7QXQRG?crid=QLYC67YKCI9W&dib=eyJ2IjoiMSJ9.1Hm8IUqoiLtmRLb_eBeR43WCfaMKDK3-0jbXgmPJ9d5WMcvWUZfObbOWTHigi4rGtL4iMP8aE22V8Xq7zQzaWx4igG_j3xz_A5eV3jIbKpXkZEA4ABbqzebuEw4dcwjGc5tCFMxBDNXRxnjVya2SWbNRu-XXKjIvWwv1HUT6hqkyHKgPEuJLmx9zaapgcjB4N8gRh6MmaniYdvH_2gZY33kMpb7eJCEMZY0hVUPM5HYRd12AyGORTrzYxaVKfghjvwtukHqmUmCpUmX7i42sTrwpuKS30v2QrWhdVqklP5Y_8A0_FBPbi5x9X_ddMKMxws1MOxvIwKO9mSznXvQIWvURd8rJN4fcmAWN05GWHEE.izmwxF_98ZSjXAfQ34HDeeAQzDFyiPEc7L4CA4toJuI&dib_tag=se&keywords=sparkling%2Bwater&qid=1740774396&refinements=p_76%3A1249146011&rnid=1249144011&rps=1&s=grocery&sprefix=sparkling%2Bwater%2Caps%2C183&sr=1-24&th=1&linkCode=ll1&tag=sparklinwater-20&linkId=eb3ee205bfab664db6dc3128fe935020&language=en_US&ref_=as_li_ss_tl" 
         },
       "store": "Amazon",
-      "cans_per_pack": 8,
+      "cans_per_pack": 12,
       "price_per_fluid_ounce": 0.04,
-      "price_per_can": 0.48,
-      "price_per_pack": 3.83
-    },
-      {
-        "product": {
-          "name": "Waterloo Sparkling Water, Lemon-Lime Naturally Flavored, 12 Fl Oz Cans (Pack of 8) – Zero Calories and Zero Sugar or Sweeteners of Any Kind",
-          "url": "https://amzn.to/4i9OSMn"
-        },
-        "store": "Amazon",
-        "cans_per_pack": 8,
-        "price_per_fluid_ounce": 0.04,
-        "price_per_can": 0.50,
-        "price_per_pack": 3.99
-      },
-      {
-        "product": {
-          "name": "Bubly Sparkling Water, Lime, Zero Sugar & Zero Calories, Seltzer Water,12 Fl Oz Cans (Pack of 8)",
-          "url": "https://amzn.to/43dblEk"
-           },
-        "store": "Amazon",
-        "cans_per_pack": 12,
-        "price_per_fluid_ounce": 0.04,
-        "price_per_can": 0.33,
-        "price_per_pack": 4.00
-      }
+      "price_per_can": 0.50,
+      "price_per_pack": 5.79
+    }
+
   ]
   
